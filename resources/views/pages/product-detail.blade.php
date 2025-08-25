@@ -384,6 +384,156 @@
       margin-bottom: 40px;
     }
 
+    /* Video Section */
+    .video-section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      margin-bottom: 40px;
+    }
+
+    .video-container {
+      max-width: 600px;
+    }
+
+    .video-placeholder {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .video-placeholder:hover {
+      transform: translateY(-2px);
+    }
+
+    .video-thumbnail {
+      position: relative;
+      width: 200px;
+      height: 120px;
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 20px;
+      transition: background 0.3s ease;
+    }
+
+    .video-placeholder:hover .play-button {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .video-info {
+      flex: 1;
+    }
+
+    .video-duration {
+      display: inline-block;
+      background: #f0f0f0;
+      color: #666;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* Videos Grid */
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .video-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .video-card .video-thumbnail {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      border-radius: 12px 12px 0 0;
+      overflow: hidden;
+    }
+
+    .video-card .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      transition: background 0.3s ease;
+    }
+
+    .video-card:hover .play-button {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .video-card .video-info {
+      padding: 20px;
+    }
+
+    .video-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .video-description {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .video-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .video-date {
+      color: #999;
+    }
+
     .artist-header {
       display: flex;
       gap: 20px;
@@ -852,6 +1002,8 @@
           </div>
         </div>
       </div>
+
+
     </div>
   </div>
 
@@ -878,6 +1030,30 @@
       <div style="text-align: center; padding-top: 20px; border-top: 1px solid #f0f0f0;">
         <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Need more information? <a href="#"
             style="color: #667eea; text-decoration: none;">Contact Us</a></p>
+      </div>
+    </div>
+
+    <!-- Video Section -->
+    <div class="video-section">
+      <div class="section-header">
+        <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">VIDEO</h2>
+      </div>
+      <div class="video-container">
+        <div class="video-placeholder">
+          <div class="video-thumbnail">
+            <img alt="{{ $artwork->title }}" src="{{ $artwork->image_url }}"
+              style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+            <div class="play-button">
+              <span>▶</span>
+            </div>
+          </div>
+          <div class="video-info">
+            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Artist Studio Tour</h3>
+            <p style="font-size: 14px; color: #666; margin-bottom: 12px;">Take a behind-the-scenes look at
+              {{ $artwork->artist_name }}'s creative process and studio space.</p>
+            <div class="video-duration">2:45</div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -940,7 +1116,7 @@
         </div>
         <div class="artworks-grid">
           @foreach ($relatedArtworks->take(4) as $related)
-            <a href="{{ route('artwork.show', $related->id) }}" class="artwork-card">
+            <a class="artwork-card" href="{{ route('artwork.show', $related->id) }}">
               <img alt="{{ $related->title }}" class="artwork-image" src="{{ $related->image_url }}">
               <div class="artwork-info">
                 <div class="artwork-price">{{ $related->formatted_price }}</div>
@@ -971,7 +1147,7 @@
         </div>
         <div class="artworks-grid">
           @foreach ($similarArtworks as $similar)
-            <a href="{{ route('artwork.show', $similar->id) }}" class="artwork-card">
+            <a class="artwork-card" href="{{ route('artwork.show', $similar->id) }}">
               <img alt="{{ $similar->title }}" class="artwork-image" src="{{ $similar->image_url }}">
               <div class="artwork-info">
                 <div class="artwork-price">{{ $similar->formatted_price }}</div>
@@ -998,12 +1174,13 @@
         </div>
         <div class="artworks-grid">
           @foreach ($recommendedArtworks as $recommended)
-            <a href="{{ route('artwork.show', $recommended->id) }}" class="artwork-card">
+            <a class="artwork-card" href="{{ route('artwork.show', $recommended->id) }}">
               <img alt="{{ $recommended->title }}" class="artwork-image" src="{{ $recommended->image_url }}">
               <div class="artwork-info">
                 <div class="artwork-price">{{ $recommended->formatted_price }}</div>
                 <div class="artwork-title">"{{ $recommended->title }}"</div>
-                <div class="artwork-size">{{ $recommended->artist_name }} • {{ $recommended->formatted_dimensions }}</div>
+                <div class="artwork-size">{{ $recommended->artist_name }} • {{ $recommended->formatted_dimensions }}
+                </div>
               </div>
               <div class="artwork-actions">
                 <button class="action-icon" onclick="toggleFavorite(event, {{ $recommended->id }})">❤️</button>
@@ -1097,35 +1274,70 @@
         } else if (tabName === 'prints') {
           document.querySelectorAll('.tab-button')[1].classList.add('active');
           document.getElementById('prints-tab').classList.add('active');
+
         }
-      }
 
-      // Add to Cart Function
-      function addToCart(artworkId) {
-        console.log('Add to cart:', artworkId);
-        showNotification('Added to cart successfully!');
-      }
+        // Add to Cart Function
+        function addToCart(artworkId) {
+          console.log('Add to cart:', artworkId);
+          showNotification('Added to cart successfully!');
+        }
 
-      // Favorite Button Toggle
-      document.querySelectorAll('.action-icon').forEach(icon => {
-        icon.addEventListener('click', function() {
-          if (this.textContent.includes('❤')) {
-            this.textContent = this.textContent === '❤️' ? '🤍' : '❤️';
-          }
+        // Toggle Favorite Function
+        function toggleFavorite(event, artworkId) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const btn = event.target;
+          btn.textContent = btn.textContent === '❤️' ? '🤍' : '❤️';
+
+          // Here you would make an AJAX request to toggle favorite
+          console.log('Toggle favorite for artwork:', artworkId);
+
+          showNotification(btn.textContent === '❤️' ? 'Added to favorites!' : 'Removed from favorites!');
+        }
+
+        // Quick View Function
+        function quickView(event, artworkId) {
+          event.preventDefault();
+          event.stopPropagation();
+
+          // Here you would show a quick view modal
+          console.log('Quick view:', artworkId);
+
+          // For now, redirect to the detail page
+          window.location.href = `/artwork/${artworkId}`;
+        }
+
+        // Favorite Button Toggle
+        document.querySelectorAll('.action-icon').forEach(icon => {
+          icon.addEventListener('click', function() {
+            if (this.textContent.includes('❤')) {
+              this.textContent = this.textContent === '❤️' ? '🤍' : '❤️';
+            }
+          });
         });
-      });
 
-      // Zoom Functionality
-      document.querySelector('.zoom-indicator').addEventListener('click', function() {
-        const mainImage = document.querySelector('.main-image');
-        // Here you would implement a modal or lightbox for zooming
-        console.log('Zoom functionality would open here');
-      });
+        // Zoom Functionality
+        document.querySelector('.zoom-indicator').addEventListener('click', function() {
+          const mainImage = document.querySelector('.main-image');
+          // Here you would implement a modal or lightbox for zooming
+          console.log('Zoom functionality would open here');
+        });
 
-      // Show notification
-      function showNotification(message) {
-        const notification = document.createElement('div');
-        notification.style.cssText = `
+        // Video Functionality
+        document.querySelectorAll('.video-card, .video-placeholder').forEach(video => {
+          video.addEventListener('click', function() {
+            // Here you would implement video player functionality
+            console.log('Video clicked - would open video player');
+            showNotification('Video player would open here');
+          });
+        });
+
+        // Show notification
+        function showNotification(message) {
+          const notification = document.createElement('div');
+          notification.style.cssText = `
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -1137,18 +1349,18 @@
             z-index: 1000;
             animation: slideIn 0.3s ease;
         `;
-        notification.textContent = message;
-        document.body.appendChild(notification);
+          notification.textContent = message;
+          document.body.appendChild(notification);
 
-        setTimeout(() => {
-          notification.style.animation = 'slideOut 0.3s ease';
-          setTimeout(() => notification.remove(), 300);
-        }, 3000);
-      }
+          setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+          }, 3000);
+        }
 
-      // Add CSS animations
-      const style = document.createElement('style');
-      style.textContent = `
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
         @keyframes slideIn {
             from {
                 transform: translateX(100%);
@@ -1171,7 +1383,7 @@
             }
         }
     `;
-      document.head.appendChild(style);
+        document.head.appendChild(style);
     </script>
   @endpush
 @endsection

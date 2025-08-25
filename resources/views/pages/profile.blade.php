@@ -138,6 +138,130 @@
       border-color: #667eea;
     }
 
+    /* Profile Tabs */
+    .profile-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #f0f0f0;
+      padding-bottom: 10px;
+    }
+
+    .tab-button {
+      padding: 12px 24px;
+      border: none;
+      background: none;
+      color: #666;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab-button:hover {
+      color: #333;
+    }
+
+    .tab-button.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+
+    /* Videos Grid */
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .video-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .video-thumbnail {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      transition: background 0.3s ease;
+    }
+
+    .video-card:hover .play-button {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
+    .video-info {
+      padding: 20px;
+    }
+
+    .video-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .video-description {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .video-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #999;
+    }
+
+    .video-duration {
+      background: #f0f0f0;
+      color: #666;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .video-date {
+      color: #999;
+    }
+
     .artworks-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -407,6 +531,12 @@
         </div>
       </div>
 
+      <!-- Profile Tabs -->
+      <div class="profile-tabs">
+        <button class="tab-button active" onclick="switchTab('artworks')">All Artworks</button>
+        <button class="tab-button" onclick="switchTab('videos')">Videos</button>
+      </div>
+
       <div class="artworks-grid" id="artworksGrid">
         @forelse($artworks as $artwork)
           <a class="artwork-card" href="{{ route('artwork.show', $artwork->id) }}">
@@ -423,6 +553,84 @@
             <p style="color: #999;">This artist hasn't uploaded any artworks yet.</p>
           </div>
         @endforelse
+      </div>
+
+      <!-- Videos Tab Content -->
+      <div class="videos-grid" id="videosGrid" style="display: none;">
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <img alt="Artist Studio Tour"
+              src="https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=400&h=300&fit=crop">
+            <div class="play-button">
+              <span>▶</span>
+            </div>
+          </div>
+          <div class="video-info">
+            <h3 class="video-title">Artist Studio Tour</h3>
+            <p class="video-description">Take a behind-the-scenes look at {{ $profileUser->name }}'s creative process and
+              studio space.</p>
+            <div class="video-meta">
+              <span class="video-duration">2:45</span>
+              <span class="video-date">2 weeks ago</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <img alt="Artwork Creation Process"
+              src="https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=400&h=300&fit=crop">
+            <div class="play-button">
+              <span>▶</span>
+            </div>
+          </div>
+          <div class="video-info">
+            <h3 class="video-title">Artwork Creation Process</h3>
+            <p class="video-description">Watch the step-by-step process of creating artwork from start to finish.</p>
+            <div class="video-meta">
+              <span class="video-duration">4:12</span>
+              <span class="video-date">1 month ago</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <img alt="Artist Interview"
+              src="https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=400&h=300&fit=crop">
+            <div class="play-button">
+              <span>▶</span>
+            </div>
+          </div>
+          <div class="video-info">
+            <h3 class="video-title">Artist Interview</h3>
+            <p class="video-description">An in-depth conversation with {{ $profileUser->name }} about their artistic
+              journey and inspiration.</p>
+            <div class="video-meta">
+              <span class="video-duration">8:30</span>
+              <span class="video-date">3 months ago</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <img alt="Exhibition Preview"
+              src="https://images.unsplash.com/photo-1549887534-1541e9326642?w=400&h=300&fit=crop">
+            <div class="play-button">
+              <span>▶</span>
+            </div>
+          </div>
+          <div class="video-info">
+            <h3 class="video-title">Exhibition Preview</h3>
+            <p class="video-description">A preview of {{ $profileUser->name }}'s latest exhibition and featured works.
+            </p>
+            <div class="video-meta">
+              <span class="video-duration">3:18</span>
+              <span class="video-date">6 months ago</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="artworks-list" id="artworksList">
@@ -503,5 +711,92 @@
         gridBtn.classList.remove('active');
       }
     }
+
+    function switchTab(tabName) {
+      const artworksGrid = document.getElementById('artworksGrid');
+      const artworksList = document.getElementById('artworksList');
+      const videosGrid = document.getElementById('videosGrid');
+      const artworksTab = document.querySelector('.tab-button[onclick*="artworks"]');
+      const videosTab = document.querySelector('.tab-button[onclick*="videos"]');
+
+      if (tabName === 'artworks') {
+        // Show artworks (both grid and list views)
+        artworksGrid.style.display = 'grid';
+        artworksList.style.display = 'none';
+        videosGrid.style.display = 'none';
+
+        // Update tab buttons
+        artworksTab.classList.add('active');
+        videosTab.classList.remove('active');
+      } else if (tabName === 'videos') {
+        // Show videos
+        artworksGrid.style.display = 'none';
+        artworksList.style.display = 'none';
+        videosGrid.style.display = 'grid';
+
+        // Update tab buttons
+        videosTab.classList.add('active');
+        artworksTab.classList.remove('active');
+      }
+    }
+
+    // Video functionality
+    document.querySelectorAll('.video-card').forEach(video => {
+      video.addEventListener('click', function() {
+        // Here you would implement video player functionality
+        console.log('Video clicked - would open video player');
+        showNotification('Video player would open here');
+      });
+    });
+
+    function showNotification(message) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #667eea;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    `;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+    }
+  `;
+    document.head.appendChild(style);
   </script>
 @endpush
