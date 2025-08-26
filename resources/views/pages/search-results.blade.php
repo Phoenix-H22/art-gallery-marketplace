@@ -21,7 +21,7 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Typewriter Regular', monospace;
       color: #333;
       background: #f8f8f8;
     }
@@ -316,22 +316,25 @@
     <div class="search-header">
       <h1 class="search-title">Search Results</h1>
       <p class="search-subtitle">
-        Found <strong>{{ $totalResults }}</strong> result{{ $totalResults != 1 ? 's' : '' }} for 
+        Found <strong>{{ $totalResults }}</strong> result{{ $totalResults != 1 ? 's' : '' }} for
         <span class="search-query">"{{ $query }}"</span>
       </p>
     </div>
 
-    @if($artworks->count() > 0)
+    @if ($artworks->count() > 0)
       <!-- Products Grid -->
       <div class="products-grid">
-        @foreach($artworks as $artwork)
+        @foreach ($artworks as $artwork)
           <a class="product-card" href="{{ route('artwork.show', $artwork->id) }}">
             <div class="product-image-container">
               <img alt="{{ $artwork->title }}" class="product-image" src="{{ $artwork->image_url }}">
               <div class="product-actions">
-                <button class="action-btn" onclick="toggleFavorite(event, {{ $artwork->id }})" title="Add to Favorites" type="button">❤</button>
-                <button class="action-btn" onclick="addToCart(event, {{ $artwork->id }})" title="Add to Cart" type="button">🛒</button>
-                <button class="action-btn" onclick="quickView(event, {{ $artwork->id }})" title="Quick View" type="button">👁</button>
+                <button class="action-btn" onclick="toggleFavorite(event, {{ $artwork->id }})" title="Add to Favorites"
+                  type="button">❤</button>
+                <button class="action-btn" onclick="addToCart(event, {{ $artwork->id }})" title="Add to Cart"
+                  type="button">🛒</button>
+                <button class="action-btn" onclick="quickView(event, {{ $artwork->id }})" title="Quick View"
+                  type="button">👁</button>
               </div>
             </div>
             <div class="product-info">
@@ -381,7 +384,7 @@
         <div class="no-results-icon">🔍</div>
         <h2 class="no-results-title">No results found</h2>
         <p class="no-results-text">We couldn't find any artworks matching "{{ $query }}"</p>
-        
+
         <div class="suggestions">
           <h3 class="suggestions-title">Try these suggestions:</h3>
           <ul class="suggestions-list">

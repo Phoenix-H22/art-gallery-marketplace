@@ -1,3 +1,14 @@
+/* Typewriter Regular Font */
+@font-face {
+    font-family: 'Typewriter Regular';
+    src: url('../fonts/Typewriter-Regular.woff2') format('woff2'),
+        url('../fonts/Typewriter-Regular.woff') format('woff'),
+        url('../fonts/Typewriter-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +24,7 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Typewriter Regular', monospace;
     color: #333;
     background: #fff;
     margin: 0;

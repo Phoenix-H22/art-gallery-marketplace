@@ -11,7 +11,7 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Typewriter Regular', monospace;
       color: #333;
       background: #f8f8f8;
     }

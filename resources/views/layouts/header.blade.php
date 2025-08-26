@@ -1,8 +1,7 @@
 <header>
   <div class="header-container">
     <a class="logo" href="/">
-      <div class="logo-icon">🎨</div>
-      <span>ARTGALLERY</span>
+      <img alt="Logo" class="logo-image" src="{{ asset('images/logo.png') }}">
     </a>
 
     <div class="search-bar">
