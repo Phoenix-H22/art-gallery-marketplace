@@ -16,6 +16,7 @@ class Artwork extends Model
         'dimensions',
         'price',
         'image_url',
+        'image_file',
         'description',
         'category_id',
         'user_id',
@@ -49,6 +50,14 @@ class Artwork extends Model
     }
 
     /**
+     * Get the videos related to this artwork (through the same artist).
+     */
+    public function videos()
+    {
+        return $this->hasMany(Video::class, 'user_id', 'user_id');
+    }
+
+    /**
      * Get the formatted price.
      */
     public function getFormattedPriceAttribute()
@@ -70,5 +79,37 @@ class Artwork extends Model
     public function getArtistNameAttribute($value)
     {
         return $this->user ? $this->user->name : $value;
+    }
+
+    /**
+     * Get the image URL for display.
+     */
+    public function getImageUrlAttribute($value)
+    {
+        // If it's already a full URL, return it
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+
+        // If it's a file path, return the storage URL
+        if ($value && !filter_var($value, FILTER_VALIDATE_URL)) {
+            return asset('storage/' . $value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Get the display image URL (prioritizes uploaded file over URL).
+     */
+    public function getDisplayImageUrlAttribute()
+    {
+        // If there's an uploaded file, use that
+        if ($this->image_file) {
+            return asset('storage/' . $this->image_file);
+        }
+
+        // Otherwise use the URL
+        return $this->image_url;
     }
 }

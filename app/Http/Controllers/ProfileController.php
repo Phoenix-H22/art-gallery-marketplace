@@ -22,7 +22,10 @@ class ProfileController extends Controller
 
         $artworks = $profileUser->artworks()->paginate(12);
 
-        return view('pages.profile', compact('profileUser', 'artworks'));
+        // Get videos for this artist
+        $videos = $profileUser->videos()->orderBy('is_featured', 'desc')->get();
+
+        return view('pages.profile', compact('profileUser', 'artworks', 'videos'));
     }
 
     /**
@@ -37,6 +40,9 @@ class ProfileController extends Controller
         $profileUser = auth()->user();
         $artworks = $profileUser->artworks()->paginate(12);
 
-        return view('pages.profile', compact('profileUser', 'artworks'));
+        // Get videos for this artist
+        $videos = $profileUser->videos()->orderBy('is_featured', 'desc')->get();
+
+        return view('pages.profile', compact('profileUser', 'artworks', 'videos'));
     }
 }

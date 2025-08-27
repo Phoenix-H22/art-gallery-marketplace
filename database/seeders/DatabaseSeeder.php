@@ -20,7 +20,11 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
+            AdminUserSeeder::class,
+            CategorySeeder::class,
+            ArtistSeeder::class,
             ArtworkSeeder::class,
+            VideoSeeder::class,
         ]);
     }
 }

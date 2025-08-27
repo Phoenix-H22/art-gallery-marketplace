@@ -57,6 +57,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the videos for this user.
+     */
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
+
+    /**
      * Check if user is an artist.
      */
     public function isArtist()

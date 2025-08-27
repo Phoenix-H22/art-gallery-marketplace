@@ -14,143 +14,111 @@ class ArtworkSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create some users (artists)
-        $artist1 = User::create([
-            'name' => 'Magdalena Krzak',
-            'email' => 'magdalena@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'artist',
-            'bio' => 'MAGDALENA KRZAK was born in Tarnów, Poland. After graduating from Art School in Tarnów she continued her education at the University in Rzeszow. Her paintings present a unique combination of an abstract, figurative forms and drawing.',
-            'location' => 'Chicago, IL, United States',
-        ]);
+        // Get existing artists
+        $artist1 = User::where('email', 'sarah.johnson@example.com')->first();
+        $artist2 = User::where('email', 'michael.chen@example.com')->first();
+        $artist3 = User::where('email', 'emma.rodriguez@example.com')->first();
+        $artist4 = User::where('email', 'david.thompson@example.com')->first();
 
-        $artist2 = User::create([
-            'name' => 'Sarah Johnson',
-            'email' => 'sarah@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'artist',
-            'bio' => 'Sarah Johnson is a contemporary artist known for her vibrant abstract paintings that explore themes of nature and human emotion.',
-            'location' => 'New York, NY, United States',
-        ]);
+        // Get existing categories
+        $abstractCategory = Category::where('slug', 'abstract')->first();
+        $realismCategory = Category::where('slug', 'realism')->first();
+        $impressionismCategory = Category::where('slug', 'impressionism')->first();
+        $contemporaryCategory = Category::where('slug', 'contemporary')->first();
+        $landscapeCategory = Category::where('slug', 'landscape')->first();
+        $portraitCategory = Category::where('slug', 'portrait')->first();
 
-        $artist3 = User::create([
-            'name' => 'Carlos Martinez',
-            'email' => 'carlos@example.com',
-            'password' => bcrypt('password'),
-            'role' => 'artist',
-            'bio' => 'Carlos Martinez is a Spanish artist whose work focuses on urban landscapes and modern city life.',
-            'location' => 'Madrid, Spain',
-        ]);
-
-        // Create categories
-        $categories = [
-            ['name' => 'Abstract Art', 'slug' => 'abstract-art', 'description' => 'Non-representational art forms'],
-            ['name' => 'Oil Paintings', 'slug' => 'oil-paintings', 'description' => 'Traditional oil on canvas works'],
-            ['name' => 'Landscapes', 'slug' => 'landscapes', 'description' => 'Natural scenery and outdoor scenes'],
-            ['name' => 'Portraits', 'slug' => 'portraits', 'description' => 'Human and animal portraits'],
-            ['name' => 'Modern Art', 'slug' => 'modern-art', 'description' => 'Contemporary artistic expressions'],
-            ['name' => 'Sculpture', 'slug' => 'sculpture', 'description' => 'Three-dimensional art forms'],
-            ['name' => 'Acrylic Paintings', 'slug' => 'acrylic-paintings', 'description' => 'Acrylic medium artworks'],
-            ['name' => 'Watercolor', 'slug' => 'watercolor', 'description' => 'Water-based paint artworks'],
-            ['name' => 'Curated Collections', 'slug' => 'curated-collections', 'description' => 'Carefully selected art pieces'],
-        ];
-
-        foreach ($categories as $categoryData) {
-            Category::create($categoryData);
+        // Check if we have the required data
+        if (!$artist1 || !$artist2 || !$artist3 || !$artist4 || !$abstractCategory) {
+            $this->command->info('Required artists or categories not found. Skipping artwork creation.');
+            return;
         }
-
-        // Get category references
-        $abstractCategory = Category::where('slug', 'abstract-art')->first();
-        $oilCategory = Category::where('slug', 'oil-paintings')->first();
-        $landscapeCategory = Category::where('slug', 'landscapes')->first();
-        $modernCategory = Category::where('slug', 'modern-art')->first();
-        $acrylicCategory = Category::where('slug', 'acrylic-paintings')->first();
 
         // Create artworks with user associations
         $artworks = [
             [
-                'title' => 'Fruitful Day',
-                'artist_name' => 'Magdalena Krzak',
+                'title' => 'Abstract Harmony',
+                'artist_name' => $artist1->name,
                 'medium' => 'Acrylic on Canvas',
                 'dimensions' => '36 x 48 in',
                 'price' => 3868.00,
                 'image_url' => 'https://images.unsplash.com/photo-1549887534-1541e9326642?w=800',
                 'description' => 'Original acrylic painting on canvas. Artwork is signed.',
-                'category_id' => $acrylicCategory->id,
+                'category_id' => $abstractCategory->id,
                 'user_id' => $artist1->id,
                 'is_ready_to_hang' => false,
                 'year_created' => 2022,
-                'style' => 'Abstract, Expressionism, Figurative',
-                'condition' => 'Excellent',
-                'location' => 'United States',
-            ],
-            [
-                'title' => 'Swimmer',
-                'artist_name' => 'Magdalena Krzak',
-                'medium' => 'Oil on Canvas',
-                'dimensions' => '24 x 20 in',
-                'price' => 948.00,
-                'image_url' => 'https://images.unsplash.com/photo-1578662996442-48f60103fc9e?w=800',
-                'description' => 'A beautiful oil painting depicting a swimmer in motion.',
-                'category_id' => $oilCategory->id,
-                'user_id' => $artist1->id,
-                'is_ready_to_hang' => true,
-                'year_created' => 2023,
-                'style' => 'Figurative, Realism',
-                'condition' => 'Excellent',
-                'location' => 'United States',
-            ],
-            [
-                'title' => 'By The Pool',
-                'artist_name' => 'Magdalena Krzak',
-                'medium' => 'Acrylic on Canvas',
-                'dimensions' => '30 x 30 in',
-                'price' => 1545.00,
-                'image_url' => 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=800',
-                'description' => 'A serene scene by the pool with vibrant colors.',
-                'category_id' => $acrylicCategory->id,
-                'user_id' => $artist1->id,
-                'is_ready_to_hang' => true,
-                'year_created' => 2023,
                 'style' => 'Abstract, Expressionism',
                 'condition' => 'Excellent',
                 'location' => 'United States',
             ],
             [
-                'title' => 'Garden Girl',
-                'artist_name' => 'Magdalena Krzak',
+                'title' => 'Urban Portrait',
+                'artist_name' => $artist2->name,
+                'medium' => 'Oil on Canvas',
+                'dimensions' => '24 x 20 in',
+                'price' => 948.00,
+                'image_url' => 'https://images.unsplash.com/photo-1578662996442-48f60103fc9e?w=800',
+                'description' => 'A beautiful oil painting depicting urban life.',
+                'category_id' => $realismCategory->id,
+                'user_id' => $artist2->id,
+                'is_ready_to_hang' => true,
+                'year_created' => 2023,
+                'style' => 'Realism',
+                'condition' => 'Excellent',
+                'location' => 'United States',
+            ],
+            [
+                'title' => 'Sunset Impression',
+                'artist_name' => $artist3->name,
+                'medium' => 'Acrylic on Canvas',
+                'dimensions' => '30 x 30 in',
+                'price' => 1545.00,
+                'image_url' => 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=800',
+                'description' => 'A serene sunset scene with vibrant colors.',
+                'category_id' => $impressionismCategory->id,
+                'user_id' => $artist3->id,
+                'is_ready_to_hang' => true,
+                'year_created' => 2023,
+                'style' => 'Impressionism',
+                'condition' => 'Excellent',
+                'location' => 'United States',
+            ],
+            [
+                'title' => 'Modern Portrait',
+                'artist_name' => $artist4->name,
                 'medium' => 'Oil on Canvas',
                 'dimensions' => '30 x 40 in',
                 'price' => 1984.00,
                 'image_url' => 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=800',
-                'description' => 'A beautiful portrait of a girl in a garden setting.',
-                'category_id' => $oilCategory->id,
-                'user_id' => $artist1->id,
+                'description' => 'A beautiful portrait with modern styling.',
+                'category_id' => $portraitCategory->id,
+                'user_id' => $artist4->id,
                 'is_ready_to_hang' => false,
                 'year_created' => 2022,
-                'style' => 'Figurative, Impressionism',
+                'style' => 'Portrait, Contemporary',
                 'condition' => 'Excellent',
                 'location' => 'United States',
             ],
             [
-                'title' => 'Urban Abstract',
-                'artist_name' => 'Sarah Johnson',
+                'title' => 'Contemporary Abstract',
+                'artist_name' => $artist1->name,
                 'medium' => 'Acrylic on Canvas',
                 'dimensions' => '40 x 60 in',
                 'price' => 2500.00,
                 'image_url' => 'https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=800',
-                'description' => 'A vibrant abstract interpretation of urban life.',
-                'category_id' => $abstractCategory->id,
-                'user_id' => $artist2->id,
+                'description' => 'A vibrant contemporary abstract composition.',
+                'category_id' => $contemporaryCategory->id,
+                'user_id' => $artist1->id,
                 'is_ready_to_hang' => true,
                 'year_created' => 2023,
-                'style' => 'Abstract, Modern',
+                'style' => 'Abstract, Contemporary',
                 'condition' => 'Excellent',
                 'location' => 'United States',
             ],
             [
-                'title' => 'Mountain Vista',
-                'artist_name' => 'Sarah Johnson',
+                'title' => 'Mountain Landscape',
+                'artist_name' => $artist2->name,
                 'medium' => 'Oil on Canvas',
                 'dimensions' => '36 x 48 in',
                 'price' => 3200.00,
@@ -163,38 +131,6 @@ class ArtworkSeeder extends Seeder
                 'style' => 'Landscape, Realism',
                 'condition' => 'Excellent',
                 'location' => 'United States',
-            ],
-            [
-                'title' => 'Modern Composition',
-                'artist_name' => 'Carlos Martinez',
-                'medium' => 'Acrylic on Canvas',
-                'dimensions' => '48 x 48 in',
-                'price' => 1800.00,
-                'image_url' => 'https://images.unsplash.com/photo-1578662996442-48f60103fc9e?w=800',
-                'description' => 'A modern geometric composition with bold colors.',
-                'category_id' => $modernCategory->id,
-                'user_id' => $artist3->id,
-                'is_ready_to_hang' => true,
-                'year_created' => 2023,
-                'style' => 'Modern, Geometric',
-                'condition' => 'Excellent',
-                'location' => 'Spain',
-            ],
-            [
-                'title' => 'City Lights',
-                'artist_name' => 'Carlos Martinez',
-                'medium' => 'Oil on Canvas',
-                'dimensions' => '40 x 30 in',
-                'price' => 2200.00,
-                'image_url' => 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=800',
-                'description' => 'A vibrant cityscape with glowing lights.',
-                'category_id' => $landscapeCategory->id,
-                'user_id' => $artist3->id,
-                'is_ready_to_hang' => false,
-                'year_created' => 2022,
-                'style' => 'Urban, Impressionism',
-                'condition' => 'Excellent',
-                'location' => 'Spain',
             ],
         ];
 

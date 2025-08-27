@@ -497,7 +497,38 @@
       justify-content: center;
       color: white;
       font-size: 24px;
-      transition: background 0.3s ease;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .video-card:hover .play-button {
+      background: rgba(255, 87, 34, 0.9);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .video-card .video-info {
+      padding: 20px;
+    }
+
+    .video-card .video-info h3 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .video-card .video-info p {
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .video-card .video-duration {
+      background: #ff5722;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
     }
 
     .video-card:hover .play-button {
@@ -888,7 +919,7 @@
           <div class="price-note">Plus fees, tax, duties, and shipping</div>
 
           <div class="action-buttons">
-            <button class="btn-primary" onclick="addToCart({{ $artwork->id }})">Add to Cart</button>
+            <button class="btn-primary" onclick="addToCart(event, {{ $artwork->id }})">Add to Cart</button>
           </div>
 
           <div class="make-offer-link">
@@ -1039,21 +1070,63 @@
         <h2 style="font-size: 20px; font-weight: 600; margin-bottom: 20px;">VIDEO</h2>
       </div>
       <div class="video-container">
-        <div class="video-placeholder">
-          <div class="video-thumbnail">
-            <img alt="{{ $artwork->title }}" src="{{ $artwork->image_url }}"
-              style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
-            <div class="play-button">
-              <span>▶</span>
+        @if ($videos->count() > 0)
+          @if ($videos->count() == 1)
+            @foreach ($videos as $video)
+              <div class="video-card" onclick="playVideo('{{ $video->video_url }}', '{{ $video->title }}')">
+                <div class="video-thumbnail">
+                  <img alt="{{ $video->title }}" src="{{ $video->display_thumbnail_url }}"
+                    style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                  <div class="play-button">
+                    <span>▶</span>
+                  </div>
+                </div>
+                <div class="video-info">
+                  <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">{{ $video->title }}</h3>
+                  <p style="font-size: 14px; color: #666; margin-bottom: 12px;">
+                    {{ $video->description ?: 'Watch ' . $artwork->artist_name . ' in action' }}</p>
+                  <div class="video-duration">{{ $video->formatted_duration }}</div>
+                </div>
+              </div>
+            @endforeach
+          @else
+            <div class="videos-grid">
+              @foreach ($videos as $video)
+                <div class="video-card" onclick="playVideo('{{ $video->video_url }}', '{{ $video->title }}')">
+                  <div class="video-thumbnail">
+                    <img alt="{{ $video->title }}" src="{{ $video->display_thumbnail_url }}"
+                      style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+                    <div class="play-button">
+                      <span>▶</span>
+                    </div>
+                  </div>
+                  <div class="video-info">
+                    <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">{{ $video->title }}</h3>
+                    <p style="font-size: 14px; color: #666; margin-bottom: 12px;">
+                      {{ $video->description ?: 'Watch ' . $artwork->artist_name . ' in action' }}</p>
+                    <div class="video-duration">{{ $video->formatted_duration }}</div>
+                  </div>
+                </div>
+              @endforeach
+            </div>
+          @endif
+        @else
+          <div class="video-placeholder">
+            <div class="video-thumbnail">
+              <img alt="{{ $artwork->title }}" src="{{ $artwork->image_url }}"
+                style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;">
+              <div class="play-button">
+                <span>▶</span>
+              </div>
+            </div>
+            <div class="video-info">
+              <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Artist Studio Tour</h3>
+              <p style="font-size: 14px; color: #666; margin-bottom: 12px;">Take a behind-the-scenes look at
+                {{ $artwork->artist_name }}'s creative process and studio space.</p>
+              <div class="video-duration">2:45</div>
             </div>
           </div>
-          <div class="video-info">
-            <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Artist Studio Tour</h3>
-            <p style="font-size: 14px; color: #666; margin-bottom: 12px;">Take a behind-the-scenes look at
-              {{ $artwork->artist_name }}'s creative process and studio space.</p>
-            <div class="video-duration">2:45</div>
-          </div>
-        </div>
+        @endif
       </div>
     </div>
 
@@ -1257,87 +1330,213 @@
         document.querySelectorAll('.thumbnail')[index].classList.add('active');
       }
 
-      // Tab Switching
-      function switchTab(tabName) {
-        // Remove active class from all tabs and contents
-        document.querySelectorAll('.tab-button').forEach(tab => {
-          tab.classList.remove('active');
-        });
-        document.querySelectorAll('.tab-content').forEach(content => {
-          content.classList.remove('active');
-        });
-
-        // Add active class to selected tab and content
-        if (tabName === 'original') {
-          document.querySelectorAll('.tab-button')[0].classList.add('active');
-          document.getElementById('original-tab').classList.add('active');
-        } else if (tabName === 'prints') {
-          document.querySelectorAll('.tab-button')[1].classList.add('active');
-          document.getElementById('prints-tab').classList.add('active');
-
-        }
-
-        // Add to Cart Function
-        function addToCart(artworkId) {
-          console.log('Add to cart:', artworkId);
-          showNotification('Added to cart successfully!');
-        }
-
-        // Toggle Favorite Function
-        function toggleFavorite(event, artworkId) {
+      // Add to Cart Function
+      function addToCart(event, artworkId) {
+        if (event) {
           event.preventDefault();
           event.stopPropagation();
-
-          const btn = event.target;
-          btn.textContent = btn.textContent === '❤️' ? '🤍' : '❤️';
-
-          // Here you would make an AJAX request to toggle favorite
-          console.log('Toggle favorite for artwork:', artworkId);
-
-          showNotification(btn.textContent === '❤️' ? 'Added to favorites!' : 'Removed from favorites!');
         }
+        console.log('Add to cart:', artworkId);
+        showNotification('Added to cart successfully!');
+      }
 
-        // Quick View Function
-        function quickView(event, artworkId) {
-          event.preventDefault();
-          event.stopPropagation();
+      // Toggle Favorite Function
+      function toggleFavorite(event, artworkId) {
+        event.preventDefault();
+        event.stopPropagation();
 
-          // Here you would show a quick view modal
-          console.log('Quick view:', artworkId);
+        const btn = event.target;
+        btn.textContent = btn.textContent === '❤️' ? '🤍' : '❤️';
 
-          // For now, redirect to the detail page
-          window.location.href = `/artwork/${artworkId}`;
-        }
+        // Here you would make an AJAX request to toggle favorite
+        console.log('Toggle favorite for artwork:', artworkId);
 
-        // Favorite Button Toggle
-        document.querySelectorAll('.action-icon').forEach(icon => {
+        showNotification(btn.textContent === '❤️' ? 'Added to favorites!' : 'Removed from favorites!');
+      }
+
+      // Quick View Function
+      function quickView(event, artworkId) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        // Here you would show a quick view modal
+        console.log('Quick view:', artworkId);
+
+        // For now, redirect to the detail page
+        window.location.href = `/artwork/${artworkId}`;
+      }
+
+      // Favorite Button Toggle
+      const actionIcons = document.querySelectorAll('.action-icon');
+      if (actionIcons.length > 0) {
+        actionIcons.forEach(icon => {
           icon.addEventListener('click', function() {
             if (this.textContent.includes('❤')) {
               this.textContent = this.textContent === '❤️' ? '🤍' : '❤️';
             }
           });
         });
+      }
 
-        // Zoom Functionality
-        document.querySelector('.zoom-indicator').addEventListener('click', function() {
+      // Zoom Functionality
+      const zoomIndicator = document.querySelector('.zoom-indicator');
+      if (zoomIndicator) {
+        zoomIndicator.addEventListener('click', function() {
           const mainImage = document.querySelector('.main-image');
           // Here you would implement a modal or lightbox for zooming
           console.log('Zoom functionality would open here');
         });
+      }
 
-        // Video Functionality
-        document.querySelectorAll('.video-card, .video-placeholder').forEach(video => {
-          video.addEventListener('click', function() {
-            // Here you would implement video player functionality
-            console.log('Video clicked - would open video player');
-            showNotification('Video player would open here');
-          });
+      // Tab Switching Functionality
+      function switchTab(tabName) {
+        // Hide all tab contents
+        const tabContents = document.querySelectorAll('.tab-content');
+        tabContents.forEach(content => {
+          content.classList.remove('active');
         });
 
-        // Show notification
-        function showNotification(message) {
-          const notification = document.createElement('div');
-          notification.style.cssText = `
+        // Remove active class from all tab buttons
+        const tabButtons = document.querySelectorAll('.tab-button');
+        tabButtons.forEach(button => {
+          button.classList.remove('active');
+        });
+
+        // Show the selected tab content
+        const selectedTab = document.getElementById(tabName + '-tab');
+        if (selectedTab) {
+          selectedTab.classList.add('active');
+        }
+
+        // Add active class to the clicked button
+        const clickedButton = document.querySelector(`[onclick="switchTab('${tabName}')"]`);
+        if (clickedButton) {
+          clickedButton.classList.add('active');
+        }
+      }
+
+      // Video Functionality
+      function playVideo(videoUrl, videoTitle) {
+        // Create a modal for video playback
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.9);
+          z-index: 10000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        `;
+
+        // Create video container
+        const videoContainer = document.createElement('div');
+        videoContainer.style.cssText = `
+          position: relative;
+          width: 100%;
+          max-width: 800px;
+          background: #000;
+          border-radius: 8px;
+          overflow: hidden;
+        `;
+
+        // Create close button
+        const closeButton = document.createElement('button');
+        closeButton.innerHTML = '×';
+        closeButton.style.cssText = `
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: rgba(0, 0, 0, 0.7);
+          color: white;
+          border: none;
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          font-size: 24px;
+          cursor: pointer;
+          z-index: 10001;
+        `;
+
+        // Create video element
+        const video = document.createElement('video');
+        video.style.cssText = `
+          width: 100%;
+          height: auto;
+          display: block;
+        `;
+        video.controls = true;
+        video.autoplay = true;
+
+        // Handle different video URL formats
+        if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+          // YouTube video - create iframe
+          const videoId = extractYouTubeId(videoUrl);
+          const iframe = document.createElement('iframe');
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+          iframe.style.cssText = `
+            width: 100%;
+            height: 450px;
+            border: none;
+          `;
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+          videoContainer.appendChild(iframe);
+        } else {
+          // Direct video file
+          video.src = videoUrl;
+          videoContainer.appendChild(video);
+        }
+
+        // Add title
+        const title = document.createElement('h3');
+        title.textContent = videoTitle;
+        title.style.cssText = `
+          color: white;
+          margin: 0;
+          padding: 15px;
+          font-size: 18px;
+          background: rgba(0, 0, 0, 0.8);
+        `;
+        videoContainer.appendChild(title);
+
+        // Add close functionality
+        closeButton.onclick = () => {
+          document.body.removeChild(modal);
+        };
+
+        modal.onclick = (e) => {
+          if (e.target === modal) {
+            document.body.removeChild(modal);
+          }
+        };
+
+        // Add elements to modal
+        videoContainer.appendChild(closeButton);
+        modal.appendChild(videoContainer);
+        document.body.appendChild(modal);
+
+        console.log('Playing video:', videoUrl);
+        showNotification(`Playing: ${videoTitle}`);
+      }
+
+      // Extract YouTube video ID
+      function extractYouTubeId(url) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
+      }
+
+      // Remove any conflicting event listeners from video elements
+      // The onclick attributes will handle the video playback
+
+      // Show notification
+      function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -1349,18 +1548,18 @@
             z-index: 1000;
             animation: slideIn 0.3s ease;
         `;
-          notification.textContent = message;
-          document.body.appendChild(notification);
+        notification.textContent = message;
+        document.body.appendChild(notification);
 
-          setTimeout(() => {
-            notification.style.animation = 'slideOut 0.3s ease';
-            setTimeout(() => notification.remove(), 300);
-          }, 3000);
-        }
+        setTimeout(() => {
+          notification.style.animation = 'slideOut 0.3s ease';
+          setTimeout(() => notification.remove(), 300);
+        }, 3000);
+      }
 
-        // Add CSS animations
-        const style = document.createElement('style');
-        style.textContent = `
+      // Add CSS animations
+      const style = document.createElement('style');
+      style.textContent = `
         @keyframes slideIn {
             from {
                 transform: translateX(100%);
@@ -1383,7 +1582,7 @@
             }
         }
     `;
-        document.head.appendChild(style);
+      document.head.appendChild(style);
     </script>
   @endpush
 @endsection

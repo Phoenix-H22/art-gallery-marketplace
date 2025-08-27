@@ -93,7 +93,7 @@ class ArtworkController extends Controller
 
     public function show($id)
     {
-        $artwork = Artwork::with('category')->findOrFail($id);
+        $artwork = Artwork::with(['category', 'videos'])->findOrFail($id);
 
         // Get related artworks (same category)
         $relatedArtworks = Artwork::where('category_id', $artwork->category_id)
@@ -118,6 +118,9 @@ class ArtworkController extends Controller
             ->limit(4)
             ->get();
 
-        return view('pages.product-detail', compact('artwork', 'relatedArtworks', 'similarArtworks', 'recommendedArtworks'));
+        // Get videos related to this artwork (same artist)
+        $videos = $artwork->videos()->orderBy('is_featured', 'desc')->get();
+
+        return view('pages.product-detail', compact('artwork', 'relatedArtworks', 'similarArtworks', 'recommendedArtworks', 'videos'));
     }
 }

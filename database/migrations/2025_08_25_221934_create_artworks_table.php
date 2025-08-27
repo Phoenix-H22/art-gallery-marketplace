@@ -17,7 +17,7 @@ return new class () extends Migration {
             $table->string('medium');
             $table->string('dimensions');
             $table->decimal('price', 10, 2);
-            $table->string('image_url');
+            $table->string('image_url')->nullable();
             $table->text('description')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->boolean('is_ready_to_hang')->default(false);

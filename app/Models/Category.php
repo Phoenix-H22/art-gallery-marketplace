@@ -20,4 +20,9 @@ class Category extends Model
     {
         return $this->hasMany(Artwork::class);
     }
+
+    public function videos()
+    {
+        return $this->hasMany(Video::class);
+    }
 }

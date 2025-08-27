@@ -557,80 +557,32 @@
 
       <!-- Videos Tab Content -->
       <div class="videos-grid" id="videosGrid" style="display: none;">
-        <div class="video-card">
-          <div class="video-thumbnail">
-            <img alt="Artist Studio Tour"
-              src="https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=400&h=300&fit=crop">
-            <div class="play-button">
-              <span>▶</span>
+        @if ($videos->count() > 0)
+          @foreach ($videos as $video)
+            <div class="video-card" onclick="playVideo('{{ $video->video_url }}', '{{ $video->title }}')">
+              <div class="video-thumbnail">
+                <img alt="{{ $video->title }}" src="{{ $video->display_thumbnail_url }}">
+                <div class="play-button">
+                  <span>▶</span>
+                </div>
+              </div>
+              <div class="video-info">
+                <h3 class="video-title">{{ $video->title }}</h3>
+                <p class="video-description">{{ $video->description ?: 'Watch ' . $profileUser->name . ' in action' }}
+                </p>
+                <div class="video-meta">
+                  <span class="video-duration">{{ $video->formatted_duration }}</span>
+                  <span class="video-date">{{ $video->created_at->diffForHumans() }}</span>
+                </div>
+              </div>
             </div>
+          @endforeach
+        @else
+          <div style="text-align: center; padding: 60px 20px; grid-column: 1 / -1;">
+            <h3 style="color: #666; margin-bottom: 20px;">No videos found</h3>
+            <p style="color: #999;">This artist hasn't uploaded any videos yet.</p>
           </div>
-          <div class="video-info">
-            <h3 class="video-title">Artist Studio Tour</h3>
-            <p class="video-description">Take a behind-the-scenes look at {{ $profileUser->name }}'s creative process and
-              studio space.</p>
-            <div class="video-meta">
-              <span class="video-duration">2:45</span>
-              <span class="video-date">2 weeks ago</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="video-card">
-          <div class="video-thumbnail">
-            <img alt="Artwork Creation Process"
-              src="https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=400&h=300&fit=crop">
-            <div class="play-button">
-              <span>▶</span>
-            </div>
-          </div>
-          <div class="video-info">
-            <h3 class="video-title">Artwork Creation Process</h3>
-            <p class="video-description">Watch the step-by-step process of creating artwork from start to finish.</p>
-            <div class="video-meta">
-              <span class="video-duration">4:12</span>
-              <span class="video-date">1 month ago</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="video-card">
-          <div class="video-thumbnail">
-            <img alt="Artist Interview"
-              src="https://images.unsplash.com/photo-1536924940846-227afb31e2a5?w=400&h=300&fit=crop">
-            <div class="play-button">
-              <span>▶</span>
-            </div>
-          </div>
-          <div class="video-info">
-            <h3 class="video-title">Artist Interview</h3>
-            <p class="video-description">An in-depth conversation with {{ $profileUser->name }} about their artistic
-              journey and inspiration.</p>
-            <div class="video-meta">
-              <span class="video-duration">8:30</span>
-              <span class="video-date">3 months ago</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="video-card">
-          <div class="video-thumbnail">
-            <img alt="Exhibition Preview"
-              src="https://images.unsplash.com/photo-1549887534-1541e9326642?w=400&h=300&fit=crop">
-            <div class="play-button">
-              <span>▶</span>
-            </div>
-          </div>
-          <div class="video-info">
-            <h3 class="video-title">Exhibition Preview</h3>
-            <p class="video-description">A preview of {{ $profileUser->name }}'s latest exhibition and featured works.
-            </p>
-            <div class="video-meta">
-              <span class="video-duration">3:18</span>
-              <span class="video-date">6 months ago</span>
-            </div>
-          </div>
-        </div>
+        @endif
       </div>
 
       <div class="artworks-list" id="artworksList">
@@ -741,13 +693,119 @@
     }
 
     // Video functionality
-    document.querySelectorAll('.video-card').forEach(video => {
-      video.addEventListener('click', function() {
-        // Here you would implement video player functionality
-        console.log('Video clicked - would open video player');
-        showNotification('Video player would open here');
-      });
-    });
+    function playVideo(videoUrl, videoTitle) {
+      // Create a modal for video playback
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      `;
+
+      // Create video container
+      const videoContainer = document.createElement('div');
+      videoContainer.style.cssText = `
+        position: relative;
+        width: 100%;
+        max-width: 800px;
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+      `;
+
+      // Create close button
+      const closeButton = document.createElement('button');
+      closeButton.innerHTML = '×';
+      closeButton.style.cssText = `
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 10001;
+      `;
+
+      // Create video element
+      const video = document.createElement('video');
+      video.style.cssText = `
+        width: 100%;
+        height: auto;
+        display: block;
+      `;
+      video.controls = true;
+      video.autoplay = true;
+
+      // Handle different video URL formats
+      if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+        // YouTube video - create iframe
+        const videoId = extractYouTubeId(videoUrl);
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+        iframe.style.cssText = `
+          width: 100%;
+          height: 450px;
+          border: none;
+        `;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        videoContainer.appendChild(iframe);
+      } else {
+        // Direct video file
+        video.src = videoUrl;
+        videoContainer.appendChild(video);
+      }
+
+      // Add title
+      const title = document.createElement('h3');
+      title.textContent = videoTitle;
+      title.style.cssText = `
+        color: white;
+        margin: 0;
+        padding: 15px;
+        font-size: 18px;
+        background: rgba(0, 0, 0, 0.8);
+      `;
+      videoContainer.appendChild(title);
+
+      // Add close functionality
+      closeButton.onclick = () => {
+        document.body.removeChild(modal);
+      };
+
+      modal.onclick = (e) => {
+        if (e.target === modal) {
+          document.body.removeChild(modal);
+        }
+      };
+
+      // Add elements to modal
+      videoContainer.appendChild(closeButton);
+      modal.appendChild(videoContainer);
+      document.body.appendChild(modal);
+
+      console.log('Playing video:', videoUrl);
+      showNotification(`Playing: ${videoTitle}`);
+    }
+
+    // Extract YouTube video ID
+    function extractYouTubeId(url) {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) ? match[2] : null;
+    }
 
     function showNotification(message) {
       const notification = document.createElement('div');
