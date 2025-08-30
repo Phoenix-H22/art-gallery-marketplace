@@ -27,10 +27,15 @@
     .breadcrumb {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 10px;
       margin-bottom: 30px;
       font-size: 14px;
       color: #666;
+      padding: 20px 0;
+      max-width: 1400px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .breadcrumb a {
