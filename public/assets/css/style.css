@@ -119,6 +119,12 @@ header {
     transition: transform 0.3s ease;
 }
 
+.logo-image {
+    max-height: 40px;
+    width: auto;
+    object-fit: contain;
+}
+
 .logo:hover {
     transform: scale(1.05);
 }
@@ -610,6 +616,12 @@ footer {
     align-items: center;
     gap: 10px;
     margin-bottom: 30px;
+}
+
+.footer-logo .logo-image {
+    max-height: 50px;
+    width: auto;
+    object-fit: contain;
 }
 
 .footer-logo-icon {
