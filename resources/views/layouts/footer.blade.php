@@ -112,5 +112,6 @@
             href="#">Terms of Service</a> apply.</p>
       </div>
     </div>
+    <div class="loo-art-branding">Loo Art.</div>
   </div>
 </footer>

@@ -2,6 +2,7 @@
   <div class="header-container">
     <a class="logo" href="/">
       <img alt="Logo" class="logo-image" src="{{ asset('images/logo.png') }}">
+      <span class="logo-text">Loo Art.</span>
     </a>
 
     <div class="search-bar">
