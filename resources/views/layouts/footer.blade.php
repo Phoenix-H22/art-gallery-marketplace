@@ -21,6 +21,7 @@
       <div class="footer-newsletter">
         <div class="footer-logo">
           <img alt="Logo" class="logo-image" src="{{ asset('images/image.png') }}">
+          <span class="footer-logo-text">Loo Art.</span>
         </div>
         <h3 class="newsletter-title">Sign Up to Receive 10% Off Your First Order</h3>
         <p class="newsletter-desc">Discover new art and collections added weekly by our curators.</p>
