@@ -32,8 +32,8 @@ class VideoSeeder extends Seeder
             [
                 'title' => 'Abstract Painting Process',
                 'description' => 'Watch the creation of a beautiful abstract painting from start to finish.',
-                'video_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                'thumbnail_url' => 'https://images.unsplash.com/photo-1549887534-1541e9326642?w=400',
+                'video_file' => 'videos/abstract-painting-process.mp4',
+                'thumbnail_file' => 'video-thumbnails/abstract-painting-thumbnail.jpg',
                 'duration' => 180, // 3 minutes
                 'user_id' => $artist1->id,
                 'category_id' => $abstractCategory->id,
@@ -42,8 +42,8 @@ class VideoSeeder extends Seeder
             [
                 'title' => 'Realistic Portrait Techniques',
                 'description' => 'Learn the techniques used to create realistic portrait paintings.',
-                'video_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                'thumbnail_url' => 'https://images.unsplash.com/photo-1578662996442-48f60103fc9e?w=400',
+                'video_file' => 'videos/realistic-portrait-techniques.mp4',
+                'thumbnail_file' => 'video-thumbnails/realistic-portrait-thumbnail.jpg',
                 'duration' => 240, // 4 minutes
                 'user_id' => $artist2->id,
                 'category_id' => $realismCategory->id,
@@ -52,8 +52,8 @@ class VideoSeeder extends Seeder
             [
                 'title' => 'Contemporary Art Studio Tour',
                 'description' => 'Take a tour of a contemporary artist\'s studio and see their creative process.',
-                'video_url' => 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-                'thumbnail_url' => 'https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=400',
+                'video_file' => 'videos/contemporary-studio-tour.mp4',
+                'thumbnail_file' => 'video-thumbnails/contemporary-studio-thumbnail.jpg',
                 'duration' => 300, // 5 minutes
                 'user_id' => $artist3->id,
                 'category_id' => $contemporaryCategory->id,

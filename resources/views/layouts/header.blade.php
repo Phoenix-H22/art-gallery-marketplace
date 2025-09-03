@@ -17,8 +17,8 @@
       @auth
         <div class="user-menu">
           <button class="icon-btn user-btn" onclick="toggleUserMenu()">
-            @if (auth()->user()->avatar)
-              <img alt="Avatar" class="user-avatar" src="{{ auth()->user()->avatar }}">
+                            @if (auth()->user()->avatar)
+                  <img alt="Avatar" class="user-avatar" src="{{ auth()->user()->avatar_url }}">
             @else
               👤
             @endif

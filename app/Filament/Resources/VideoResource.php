@@ -53,30 +53,21 @@ class VideoResource extends Resource
 
                 Forms\Components\Section::make('Media')
                     ->schema([
-                        Forms\Components\TextInput::make('video_url')
-                            ->required()
-                            ->url()
-                            ->label('Video URL')
-                            ->placeholder('https://youtube.com/watch?v=... or direct video URL'),
-                        Forms\Components\TextInput::make('thumbnail_url')
-                            ->label('Thumbnail URL (Optional)')
-                            ->url()
-                            ->placeholder('https://example.com/thumbnail.jpg')
-                            ->helperText('Enter a thumbnail URL or upload a file below')
-                            ->live(onBlur: true)
-                            ->rules(['nullable', 'url']),
+                        Forms\Components\FileUpload::make('video_file')
+                            ->label('Video File')
+                            ->acceptedFileTypes(['video/mp4', 'video/webm', 'video/ogg'])
+                            ->directory('videos')
+                            ->maxSize(102400) // 100MB
+                            ->helperText('Upload video file (MP4, WebM, OGG) - Max 100MB')
+                            ->required(),
                         Forms\Components\FileUpload::make('thumbnail_file')
-                            ->label('Or Upload Thumbnail File')
+                            ->label('Thumbnail Image')
                             ->image()
                             ->directory('video-thumbnails')
                             ->helperText('Upload a thumbnail image file (JPEG, PNG, WebP)')
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120) // 5MB
-                            ->live(onBlur: true),
-                        Forms\Components\ViewField::make('thumbnail_preview')
-                            ->view('filament.components.image-preview')
-                            ->label('Current Thumbnail Preview')
-                            ->visible(fn ($record) => $record && ($record->thumbnail_url || $record->thumbnail_file)),
+                            ->required(),
                         Forms\Components\Textarea::make('description')
                             ->rows(4)
                             ->placeholder('Describe the video content, what viewers will see, etc.')
@@ -117,10 +108,7 @@ class VideoResource extends Resource
                     ->formatStateUsing(fn ($state) => $state ? gmdate('i:s', $state) : 'Unknown')
                     ->label('Duration')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('video_url')
-                    ->label('Video URL')
-                    ->limit(30)
-                    ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\IconColumn::make('is_featured')
                     ->boolean()
                     ->label('Featured'),

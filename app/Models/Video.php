@@ -12,8 +12,7 @@ class Video extends Model
     protected $fillable = [
         'title',
         'description',
-        'video_url',
-        'thumbnail_url',
+        'video_file',
         'thumbnail_file',
         'duration',
         'user_id',
@@ -58,21 +57,27 @@ class Video extends Model
     }
 
     /**
+     * Get the video URL for display.
+     */
+    public function getVideoUrlAttribute()
+    {
+        if ($this->video_file) {
+            return asset('storage/' . $this->video_file);
+        }
+
+        return null;
+    }
+
+    /**
      * Get the thumbnail URL for display.
      */
-    public function getThumbnailUrlAttribute($value)
+    public function getThumbnailUrlAttribute()
     {
-        // If it's already a full URL, return it
-        if (filter_var($value, FILTER_VALIDATE_URL)) {
-            return $value;
+        if ($this->thumbnail_file) {
+            return asset('storage/' . $this->thumbnail_file);
         }
 
-        // If it's a file path, return the storage URL
-        if ($value && !filter_var($value, FILTER_VALIDATE_URL)) {
-            return asset('storage/' . $value);
-        }
-
-        return $value;
+        return asset('images/placeholder-video.jpg');
     }
 
     /**
@@ -80,12 +85,6 @@ class Video extends Model
      */
     public function getDisplayThumbnailUrlAttribute()
     {
-        // If there's an uploaded file, use that
-        if ($this->thumbnail_file) {
-            return asset('storage/' . $this->thumbnail_file);
-        }
-
-        // Otherwise use the URL
         return $this->thumbnail_url;
     }
 }

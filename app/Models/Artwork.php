@@ -15,7 +15,6 @@ class Artwork extends Model
         'medium',
         'dimensions',
         'price',
-        'image_url',
         'image_file',
         'description',
         'category_id',
@@ -84,19 +83,13 @@ class Artwork extends Model
     /**
      * Get the image URL for display.
      */
-    public function getImageUrlAttribute($value)
+    public function getImageUrlAttribute()
     {
-        // If it's already a full URL, return it
-        if (filter_var($value, FILTER_VALIDATE_URL)) {
-            return $value;
+        if ($this->image_file) {
+            return asset('storage/' . $this->image_file);
         }
 
-        // If it's a file path, return the storage URL
-        if ($value && !filter_var($value, FILTER_VALIDATE_URL)) {
-            return asset('storage/' . $value);
-        }
-
-        return $value;
+        return asset('images/placeholder-artwork.jpg');
     }
 
     /**
@@ -104,12 +97,6 @@ class Artwork extends Model
      */
     public function getDisplayImageUrlAttribute()
     {
-        // If there's an uploaded file, use that
-        if ($this->image_file) {
-            return asset('storage/' . $this->image_file);
-        }
-
-        // Otherwise use the URL
         return $this->image_url;
     }
 }

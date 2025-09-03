@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             ArtistSeeder::class,
             ArtworkSeeder::class,
             VideoSeeder::class,
+            BannerSeeder::class,
         ]);
     }
 }

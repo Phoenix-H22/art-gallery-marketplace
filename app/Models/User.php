@@ -26,6 +26,7 @@ class User extends Authenticatable
         'bio',
         'location',
         'avatar',
+        'main_video_id',
     ];
 
     /**
@@ -93,6 +94,24 @@ class User extends Authenticatable
      */
     public function getAvatarUrlAttribute()
     {
-        return $this->avatar ?: 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=150&h=150&fit=crop';
+        if (!$this->avatar) {
+            return 'https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?w=150&h=150&fit=crop';
+        }
+
+        // If it's already a full URL, return it
+        if (filter_var($this->avatar, FILTER_VALIDATE_URL)) {
+            return $this->avatar;
+        }
+
+        // If it's a file path, return the storage URL
+        return asset('storage/' . $this->avatar);
+    }
+
+    /**
+     * Get the user's main video.
+     */
+    public function mainVideo()
+    {
+        return $this->belongsTo(Video::class, 'main_video_id');
     }
 }

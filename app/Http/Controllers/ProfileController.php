@@ -17,7 +17,7 @@ class ProfileController extends Controller
             ->where('role', 'artist')
             ->with(['artworks' => function ($query) {
                 $query->orderBy('created_at', 'desc');
-            }])
+            }, 'mainVideo'])
             ->firstOrFail();
 
         $artworks = $profileUser->artworks()->paginate(12);

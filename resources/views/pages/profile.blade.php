@@ -104,6 +104,66 @@
       margin-bottom: 30px;
     }
 
+    /* Main Video Section */
+    .main-video-section {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+
+    .main-video-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .main-video-player {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      margin: 0 auto;
+    }
+
+    .main-video-info {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .main-video-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .main-video-description {
+      font-size: 16px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    .play-overlay button {
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .play-overlay button:hover {
+      background: rgba(0, 0, 0, 1);
+    }
+
+
+
     .section-header {
       display: flex;
       justify-content: space-between;
@@ -631,6 +691,27 @@
       @endif
     </div>
 
+    <!-- Main Video Section -->
+    @if ($profileUser->mainVideo)
+      <div class="main-video-section">
+        <h2 class="section-title">Featured Video</h2>
+        <div class="main-video-container">
+          <video autoplay class="main-video-player" controls loop muted playsinline
+            poster="{{ $profileUser->mainVideo->display_thumbnail_url }}" preload="auto">
+            <source src="{{ $profileUser->mainVideo->video_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+
+          <div class="main-video-info">
+            <h3 class="main-video-title">{{ $profileUser->mainVideo->title }}</h3>
+            @if ($profileUser->mainVideo->description)
+              <p class="main-video-description">{{ $profileUser->mainVideo->description }}</p>
+            @endif
+          </div>
+        </div>
+      </div>
+    @endif
+
     <!-- About Section -->
     @if ($profileUser->bio)
       <div class="about-section">
@@ -691,6 +772,27 @@
         artworksTab.classList.remove('active');
       }
     }
+
+    // Main video autoplay functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const mainVideo = document.querySelector('.main-video-player');
+      if (mainVideo && !mainVideo.classList.contains('youtube-embed')) {
+        // Only handle HTML5 video elements, not YouTube iframes
+        // Try to autoplay the video
+        mainVideo.play().catch(function(error) {
+          console.log('Autoplay prevented:', error);
+          // Show a play button overlay if autoplay fails
+          const playOverlay = document.createElement('div');
+          playOverlay.className = 'play-overlay';
+          playOverlay.innerHTML =
+            '<button onclick="this.parentElement.remove(); this.parentElement.parentElement.play();">▶ Play Video</button>';
+          playOverlay.style.cssText =
+            'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;';
+          mainVideo.parentElement.style.position = 'relative';
+          mainVideo.parentElement.appendChild(playOverlay);
+        });
+      }
+    });
 
     // Video functionality
     function playVideo(videoUrl, videoTitle) {

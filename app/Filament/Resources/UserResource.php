@@ -56,6 +56,13 @@ class UserResource extends Resource
                             ->image()
                             ->directory('avatars')
                             ->label('Profile Picture'),
+                        Forms\Components\Select::make('main_video_id')
+                            ->label('Main Video')
+                            ->relationship('mainVideo', 'title')
+                            ->searchable()
+                            ->preload()
+                            ->placeholder('Select a main video for this artist')
+                            ->helperText('This video will be displayed prominently on the artist\'s profile page'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Account Settings')
@@ -104,6 +111,10 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('videos_count')
                     ->counts('videos')
                     ->label('Videos'),
+                Tables\Columns\TextColumn::make('mainVideo.title')
+                    ->label('Main Video')
+                    ->toggleable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -142,5 +153,16 @@ class UserResource extends Resource
             'create' => Pages\CreateUser::route('/create'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function mutateFormDataBeforeSave(array $data): array
+    {
+        // Remove password fields if they are empty during update
+        if (isset($data['password']) && empty($data['password'])) {
+            unset($data['password']);
+            unset($data['password_confirmation']);
+        }
+
+        return $data;
     }
 }

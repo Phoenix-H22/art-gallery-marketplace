@@ -88,25 +88,15 @@ class ArtworkResource extends Resource
 
                 Forms\Components\Section::make('Media')
                     ->schema([
-                        Forms\Components\TextInput::make('image_url')
-                            ->label('Image URL (Optional)')
-                            ->url()
-                            ->placeholder('https://example.com/image.jpg')
-                            ->helperText('Enter an image URL or upload a file below')
-                            ->live(onBlur: true)
-                            ->rules(['nullable', 'url']),
                         Forms\Components\FileUpload::make('image_file')
-                            ->label('Or Upload Image File')
+                            ->label('Artwork Image')
                             ->image()
                             ->directory('artworks')
                             ->helperText('Upload an image file (JPEG, PNG, WebP)')
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                             ->maxSize(5120) // 5MB
                             ->live(onBlur: true),
-                        Forms\Components\ViewField::make('image_preview')
-                            ->view('filament.components.image-preview')
-                            ->label('Current Image Preview')
-                            ->visible(fn ($record) => $record && ($record->image_url || $record->image_file)),
+
                         Forms\Components\Textarea::make('description')
                             ->rows(4)
                             ->placeholder('Describe the artwork, its inspiration, techniques used, etc.')

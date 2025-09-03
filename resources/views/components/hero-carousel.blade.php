@@ -1,12 +1,16 @@
+@php
+  $banners = \App\Models\Banner::active()->ordered()->get();
+@endphp
+
 <section class="hero-section">
   <div class="carousel-container">
-    @forelse($featuredArtworks as $index => $artwork)
-      <div class="carousel-slide {{ $index === 0 ? 'active' : '' }}">
-        <img alt="{{ $artwork->title }}" src="{{ $artwork->image_url }}">
+    @forelse($banners as $index => $banner)
+      <div class="rem fieldge  {{ $index === 0 ? 'active' : '' }}">
+        <img alt="{{ $banner->title }}" src="{{ $banner->image_url }}">
         <div class="slide-content">
-          <h1>{{ strtoupper($artwork->title) }}</h1>
-          <p>{{ $artwork->artist_name }} - {{ $artwork->formatted_price }}</p>
-          <a class="cta-button" href="{{ route('artwork.show', $artwork->id) }}">VIEW DETAILS</a>
+          <h1>{{ strtoupper($banner->title) }}</h1>
+          <p>{{ $banner->subtitle }}</p>
+          <a class="cta-button" href="{{ $banner->button_url }}">{{ $banner->button_text }}</a>
         </div>
       </div>
     @empty
