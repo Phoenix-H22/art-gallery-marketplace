@@ -63,6 +63,13 @@ class UserResource extends Resource
                             ->preload()
                             ->placeholder('Select a main video for this artist')
                             ->helperText('This video will be displayed prominently on the artist\'s profile page'),
+                        Forms\Components\Select::make('featured_video_id')
+                            ->label('Featured Video')
+                            ->relationship('featuredVideo', 'title')
+                            ->searchable()
+                            ->preload()
+                            ->placeholder('Select a featured video for this artist')
+                            ->helperText('This video will be displayed in the featured videos section'),
                     ])->columns(2),
 
                 Forms\Components\Section::make('Account Settings')
@@ -71,11 +78,14 @@ class UserResource extends Resource
                             ->password()
                             ->required(fn (string $context): bool => $context === 'create')
                             ->minLength(8)
-                            ->confirmed(),
+                            ->confirmed()
+                            ->dehydrated(fn ($state) => filled($state))
+                            ->dehydrateStateUsing(fn ($state) => filled($state) ? bcrypt($state) : null),
                         Forms\Components\TextInput::make('password_confirmation')
                             ->password()
                             ->required(fn (string $context): bool => $context === 'create')
-                            ->minLength(8),
+                            ->minLength(8)
+                            ->dehydrated(false),
                         Forms\Components\DateTimePicker::make('email_verified_at')
                             ->label('Email Verified At'),
                     ])->columns(2),
@@ -113,6 +123,10 @@ class UserResource extends Resource
                     ->label('Videos'),
                 Tables\Columns\TextColumn::make('mainVideo.title')
                     ->label('Main Video')
+                    ->toggleable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('featuredVideo.title')
+                    ->label('Featured Video')
                     ->toggleable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -158,8 +172,12 @@ class UserResource extends Resource
     public static function mutateFormDataBeforeSave(array $data): array
     {
         // Remove password fields if they are empty during update
-        if (isset($data['password']) && empty($data['password'])) {
+        if (isset($data['password']) && (empty($data['password']) || is_null($data['password']))) {
             unset($data['password']);
+        }
+
+        // Always remove password_confirmation as it's not needed in the database
+        if (isset($data['password_confirmation'])) {
             unset($data['password_confirmation']);
         }
 

@@ -27,6 +27,7 @@ class User extends Authenticatable
         'location',
         'avatar',
         'main_video_id',
+        'featured_video_id',
     ];
 
     /**
@@ -113,5 +114,13 @@ class User extends Authenticatable
     public function mainVideo()
     {
         return $this->belongsTo(Video::class, 'main_video_id');
+    }
+
+    /**
+     * Get the user's featured video.
+     */
+    public function featuredVideo()
+    {
+        return $this->belongsTo(Video::class, 'featured_video_id');
     }
 }

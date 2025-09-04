@@ -104,66 +104,6 @@
       margin-bottom: 30px;
     }
 
-    /* Main Video Section */
-    .main-video-section {
-      background: white;
-      border-radius: 12px;
-      padding: 40px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-      margin-bottom: 30px;
-    }
-
-    .main-video-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .main-video-player {
-      width: 100%;
-      max-width: 800px;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      margin: 0 auto;
-    }
-
-    .main-video-info {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .main-video-title {
-      font-size: 20px;
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 10px;
-    }
-
-    .main-video-description {
-      font-size: 16px;
-      color: #666;
-      line-height: 1.6;
-    }
-
-    .play-overlay button {
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      border: none;
-      padding: 15px 30px;
-      border-radius: 25px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .play-overlay button:hover {
-      background: rgba(0, 0, 0, 1);
-    }
-
-
-
     .section-header {
       display: flex;
       justify-content: space-between;
@@ -319,6 +259,190 @@
     }
 
     .video-date {
+      color: #999;
+    }
+
+    /* Main Video Section */
+    .main-video-section {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+
+    .main-video-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .main-video-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .main-video-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .main-video-thumbnail {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    .main-video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .main-play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 32px;
+      transition: all 0.3s ease;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .main-video-card:hover .main-play-button {
+      background: rgba(0, 0, 0, 0.9);
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .main-video-info {
+      padding: 30px;
+      text-align: center;
+    }
+
+    .main-video-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .main-video-description {
+      font-size: 16px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .main-video-meta {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      font-size: 14px;
+      color: #999;
+    }
+
+    /* Featured Video Section */
+    .featured-video-section {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      margin-bottom: 30px;
+    }
+
+    .featured-video-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .featured-video-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .featured-video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .featured-video-thumbnail {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+    }
+
+    .featured-video-thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .featured-play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px;
+      height: 70px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 28px;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .featured-video-card:hover .featured-play-button {
+      background: rgba(0, 0, 0, 0.9);
+      border-color: rgba(255, 255, 255, 0.6);
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+
+    .featured-video-info {
+      padding: 25px;
+      text-align: center;
+    }
+
+    .featured-video-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    .featured-video-description {
+      font-size: 15px;
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .featured-video-meta {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 13px;
       color: #999;
     }
 
@@ -548,6 +672,52 @@
         align-items: flex-start;
         gap: 15px;
       }
+
+      .main-video-thumbnail {
+        height: 200px;
+      }
+
+      .main-play-button {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+      }
+
+      .main-video-info {
+        padding: 20px;
+      }
+
+      .main-video-title {
+        font-size: 20px;
+      }
+
+      .main-video-meta {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .featured-video-thumbnail {
+        height: 180px;
+      }
+
+      .featured-play-button {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+
+      .featured-video-info {
+        padding: 20px;
+      }
+
+      .featured-video-title {
+        font-size: 18px;
+      }
+
+      .featured-video-meta {
+        flex-direction: column;
+        gap: 8px;
+      }
     }
   </style>
 @endpush
@@ -580,6 +750,38 @@
         </div>
       </div>
     </div>
+
+    <!-- Main Video Section -->
+    @if ($profileUser->mainVideo)
+      <div class="main-video-section">
+        <div class="section-header">
+          <h2 class="section-title">Main Video</h2>
+        </div>
+        <div class="main-video-container">
+          <div class="main-video-card"
+            onclick="playVideo('{{ $profileUser->mainVideo->video_url }}', '{{ $profileUser->mainVideo->title }}')">
+            <div class="main-video-thumbnail">
+              <img alt="{{ $profileUser->mainVideo->title }}"
+                src="{{ $profileUser->mainVideo->display_thumbnail_url }}">
+              <div class="play-button main-play-button">
+                <span>▶</span>
+              </div>
+            </div>
+            <div class="main-video-info">
+              <h3 class="main-video-title">{{ $profileUser->mainVideo->title }}</h3>
+              <p class="main-video-description">
+                {{ $profileUser->mainVideo->description ?: 'Watch ' . $profileUser->name . '\'s featured video' }}</p>
+              <div class="main-video-meta">
+                <span class="video-duration">{{ $profileUser->mainVideo->formatted_duration }}</span>
+                <span class="video-date">{{ $profileUser->mainVideo->created_at->diffForHumans() }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    @endif
+
+
 
     <!-- Artworks Section -->
     <div class="artworks-section">
@@ -691,27 +893,36 @@
       @endif
     </div>
 
-    <!-- Main Video Section -->
-    @if ($profileUser->mainVideo)
-      <div class="main-video-section">
-        <h2 class="section-title">Featured Video</h2>
-        <div class="main-video-container">
-          <video autoplay class="main-video-player" controls loop muted playsinline
-            poster="{{ $profileUser->mainVideo->display_thumbnail_url }}" preload="auto">
-            <source src="{{ $profileUser->mainVideo->video_url }}" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-
-          <div class="main-video-info">
-            <h3 class="main-video-title">{{ $profileUser->mainVideo->title }}</h3>
-            @if ($profileUser->mainVideo->description)
-              <p class="main-video-description">{{ $profileUser->mainVideo->description }}</p>
-            @endif
+    <!-- Featured Video Section -->
+    @if ($profileUser->featuredVideo)
+      <div class="featured-video-section">
+        <div class="section-header">
+          <h2 class="section-title">Featured Video</h2>
+        </div>
+        <div class="featured-video-container">
+          <div class="featured-video-card"
+            onclick="playVideo('{{ $profileUser->featuredVideo->video_url }}', '{{ $profileUser->featuredVideo->title }}')">
+            <div class="featured-video-thumbnail">
+              <img alt="{{ $profileUser->featuredVideo->title }}"
+                src="{{ $profileUser->featuredVideo->display_thumbnail_url }}">
+              <div class="play-button featured-play-button">
+                <span>▶</span>
+              </div>
+            </div>
+            <div class="featured-video-info">
+              <h3 class="featured-video-title">{{ $profileUser->featuredVideo->title }}</h3>
+              <p class="featured-video-description">
+                {{ $profileUser->featuredVideo->description ?: 'Watch ' . $profileUser->name . '\'s featured video' }}
+              </p>
+              <div class="featured-video-meta">
+                <span class="video-duration">{{ $profileUser->featuredVideo->formatted_duration }}</span>
+                <span class="video-date">{{ $profileUser->featuredVideo->created_at->diffForHumans() }}</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     @endif
-
     <!-- About Section -->
     @if ($profileUser->bio)
       <div class="about-section">
@@ -772,27 +983,6 @@
         artworksTab.classList.remove('active');
       }
     }
-
-    // Main video autoplay functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const mainVideo = document.querySelector('.main-video-player');
-      if (mainVideo && !mainVideo.classList.contains('youtube-embed')) {
-        // Only handle HTML5 video elements, not YouTube iframes
-        // Try to autoplay the video
-        mainVideo.play().catch(function(error) {
-          console.log('Autoplay prevented:', error);
-          // Show a play button overlay if autoplay fails
-          const playOverlay = document.createElement('div');
-          playOverlay.className = 'play-overlay';
-          playOverlay.innerHTML =
-            '<button onclick="this.parentElement.remove(); this.parentElement.parentElement.play();">▶ Play Video</button>';
-          playOverlay.style.cssText =
-            'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10;';
-          mainVideo.parentElement.style.position = 'relative';
-          mainVideo.parentElement.appendChild(playOverlay);
-        });
-      }
-    });
 
     // Video functionality
     function playVideo(videoUrl, videoTitle) {
