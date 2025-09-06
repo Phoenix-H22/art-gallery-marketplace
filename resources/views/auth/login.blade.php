@@ -11,7 +11,7 @@
     }
 
     body {
-      font-family: 'Typewriter Regular', monospace;
+      font-family: 'Goorm Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       color: #333;
       background: #f8f8f8;
     }
