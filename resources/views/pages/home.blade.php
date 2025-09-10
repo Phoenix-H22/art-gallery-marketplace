@@ -11,34 +11,84 @@
 @push('scripts')
   <script>
     let currentSlide = 0;
-    const slides = document.querySelectorAll('.carousel-slide');
+    let slides = [];
+    let autoSlideInterval;
+
+    function initializeCarousel() {
+      slides = document.querySelectorAll('.carousel-slide');
+      console.log('Found slides:', slides.length);
+
+      if (slides.length === 0) {
+        console.log('No slides found, retrying...');
+        setTimeout(initializeCarousel, 100);
+        return;
+      }
+
+      // Show first slide
+      showSlide(0);
+
+      // Start auto-advance
+      startAutoSlide();
+    }
 
     function showSlide(index) {
+      console.log('Showing slide:', index);
+
       // Hide all slides
       slides.forEach(slide => slide.classList.remove('active'));
 
       // Show the current slide
       if (slides[index]) {
         slides[index].classList.add('active');
+        currentSlide = index;
       }
     }
 
     function nextSlide() {
+      console.log('Next slide clicked');
+      if (slides.length === 0) return;
+
       currentSlide = (currentSlide + 1) % slides.length;
       showSlide(currentSlide);
+
+      // Reset auto-slide timer
+      resetAutoSlide();
     }
 
     function previousSlide() {
+      console.log('Previous slide clicked');
+      if (slides.length === 0) return;
+
       currentSlide = (currentSlide - 1 + slides.length) % slides.length;
       showSlide(currentSlide);
+
+      // Reset auto-slide timer
+      resetAutoSlide();
     }
 
-    // Auto-advance slides every 5 seconds
-    setInterval(nextSlide, 5000);
+    function startAutoSlide() {
+      if (slides.length <= 1) return;
 
-    // Initialize first slide when DOM is loaded
+      autoSlideInterval = setInterval(() => {
+        nextSlide();
+      }, 5000);
+    }
+
+    function resetAutoSlide() {
+      if (autoSlideInterval) {
+        clearInterval(autoSlideInterval);
+      }
+      startAutoSlide();
+    }
+
+    // Initialize when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-      showSlide(0);
+      console.log('DOM loaded, initializing carousel...');
+      initializeCarousel();
     });
+
+    // Make functions globally available
+    window.nextSlide = nextSlide;
+    window.previousSlide = previousSlide;
   </script>
 @endpush

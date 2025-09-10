@@ -5,7 +5,7 @@
 <section class="hero-section">
   <div class="carousel-container">
     @forelse($banners as $index => $banner)
-      <div class="rem fieldge  {{ $index === 0 ? 'active' : '' }}">
+      <div class="carousel-slide {{ $index === 0 ? 'active' : '' }}">
         <img alt="{{ $banner->title }}" src="{{ $banner->image_url }}">
         <div class="slide-content">
           <h1>{{ strtoupper($banner->title) }}</h1>
