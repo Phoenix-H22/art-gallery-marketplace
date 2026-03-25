@@ -666,12 +666,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 👥 Team
+## 👨‍💻 Developer
 
-**Phoenix Technologies**
+**Abdalrhman M. Alkady**
 
-- Website: [https://phoenixtechs.net](https://phoenixtechs.net)
-- Email: support@phoenixtechs.net
+Full-Stack Developer specializing in Laravel, PHP, and modern web technologies.
+
+- **LinkedIn**: [linkedin.com/in/alkady22](https://www.linkedin.com/in/alkady22/)
+- **Upwork**: [upwork.com/freelancers/alkady22h](https://www.upwork.com/freelancers/alkady22h)
+- **Email**: [alkady2019@gmail.com](mailto:alkady2019@gmail.com)
 
 ---
 
@@ -686,7 +689,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-For support, email support@phoenixtechs.net or visit our [support page](https://phoenixtechs.net/support).
+For support, inquiries, or freelance opportunities:
+
+- **Email**: [alkady2019@gmail.com](mailto:alkady2019@gmail.com)
+- **LinkedIn**: [Abdalrhman M. Alkady](https://www.linkedin.com/in/alkady22/)
+- **Upwork**: [Hire on Upwork](https://www.upwork.com/freelancers/alkady22h)
 
 ---
 
@@ -699,4 +706,4 @@ For support, email support@phoenixtechs.net or visit our [support page](https://
 
 ---
 
-<p align="center">Made with ❤️ by Phoenix Technologies</p>
+<p align="center">Made with ❤️ by <a href="https://www.linkedin.com/in/alkady22/">Abdalrhman M. Alkady</a></p>
