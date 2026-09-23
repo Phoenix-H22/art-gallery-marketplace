@@ -1,0 +1,44 @@
+name: Deploy
+
+# Every push to a deploy branch updates the site(s) on the VPS.
+# The server side (/usr/local/sbin/site-deploy) fast-forwards the checkout, runs
+# composer install / npm ci only when their manifest or lock file changed, builds
+# front-end assets only when they changed, backs up the DB before migrating,
+# restarts queues/workers, and fails the run if the site's health check fails.
+# The SSH key can do nothing but trigger this deploy (forced command on the server).
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['.github/**']
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Only show what would be deployed
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-${{ github.ref_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Deploy ${{ github.ref_name }} to the VPS
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          BRANCH: ${{ github.ref_name }}
+          MODE: ${{ inputs.dry_run && 'dry-run' || '' }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes             -o ServerAliveInterval=30 "deployer@$DEPLOY_HOST" "$BRANCH $MODE"
